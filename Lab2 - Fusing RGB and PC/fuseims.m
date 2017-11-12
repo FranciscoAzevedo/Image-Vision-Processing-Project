@@ -2,16 +2,16 @@ K=[525 0 319.5;
     0 525 239.5;
     0 0 1];
 
-depth1=imread('cardepth2.png');
-im1=imread('car2.jpg');
+depth1 = imread('cardepth2.png');
+im1 = imread('car2.jpg');
 depth2=imread('cardepth393.png');
-im2=imread('car393.jpg');
+im2 = imread('car393.jpg');
 figure(1);
 imagesc([im1 im2]);
 figure(2);
 imagesc([depth1 depth2]);
-xyz1=get_xyzasus(depth1(:),[480 640],1:640*480,K,1,0);
-xyz2=get_xyzasus(depth2(:),[480 640],1:640*480,K,1,0);
+xyz1 = get_xyz_asus(depth1(:),[480 640],1:640*480,K,1,0);
+xyz2 = get_xyz_asus(depth2(:),[480 640],1:640*480,K,1,0);
 
 cl1=reshape(im1,480*640,3);
 cl2=reshape(im2,480*640,3);
