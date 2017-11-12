@@ -14,11 +14,11 @@ P2 = Aruco_cam.K*[R_d_to_rgb T_d_to_rgb]*[P; ones(1, 640*480)];
 u2 = P2(1,:)./P2(3,:); 
 v2 = P2(2,:)./P2(3,:);
 
-% ESTA CENA NAO E DO PROF
-n = 1;
-imshow('rgb_image_10.png')
-[u_d, v_d ] = ginput(n);
-figure(2);
+%ESTA CENA NAO E DO PROF
+% n = 1;
+% imshow('rgb_image_10.png')
+% [u_d, v_d ] = ginput(n);
+% figure(2);
 
 for i=1:n
     

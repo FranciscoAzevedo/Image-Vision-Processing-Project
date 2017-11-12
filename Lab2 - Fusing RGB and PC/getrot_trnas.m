@@ -1,4 +1,5 @@
 %%
+
 % READ IMAGES and GENERATE POINT CLOUDS
 im1=imread('rgb_image1_3.png');
 im2=imread('rgb_image2_3.png');
@@ -6,9 +7,11 @@ load('depth1_3.mat')
 dep1=depth_array;
 load('depth2_3.mat')
 dep2=depth_array;
+
 %dep2(find(dep2(:)>4000))=0;
 xyz1=get_xyzasus(dep1(:),[480 640],(1:640*480)', Depth_cam.K,1,0);
 xyz2=get_xyzasus(dep2(:),[480 640],(1:640*480)', Depth_cam.K,1,0);
+
 %REGISTER RGB TO DEPTH
 rgbd1 = get_rgbd(xyz1, im1, R_d_to_rgb, T_d_to_rgb, RGB_cam.K);
 rgbd2 = get_rgbd(xyz2, im2, R_d_to_rgb, T_d_to_rgb, RGB_cam.K);

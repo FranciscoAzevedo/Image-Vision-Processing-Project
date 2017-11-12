@@ -6,7 +6,7 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function tracked_objs=peopletracking( file_names, depth_cam, rgb_cam, Rdtrgb,Tdtrgb)
+function tracked_objs = peopletracking( file_names, depth_cam, rgb_cam, Rdtrgb,Tdtrgb)
 
 %Point cloud for camera 1
 

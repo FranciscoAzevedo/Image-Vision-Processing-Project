@@ -25,7 +25,7 @@ v = (1:480)'*ones(1,640);
 
 Zd = double(depth_array)/1000; %para estar em metros pois dept_array esta em mm
 
-matriz_3d = [reshape(u.*Zd,[640*480, 1]),reshape(v.*Zd,[640*480, 1]),reshape(Zd,[640*480, 1])]';
+%matriz_3d = [reshape(u.*Zd,[640*480, 1]),reshape(v.*Zd,[640*480, 1]),reshape(Zd,[640*480, 1])]';
 
 figure();
 Z = mesh(u,v, Zd);
