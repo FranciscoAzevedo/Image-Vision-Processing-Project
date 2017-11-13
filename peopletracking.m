@@ -6,20 +6,26 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function tracked_objs = peopletracking( file_names, depth_cam, rgb_cam, Rdtrgb,Tdtrgb)
+function objects = track3D_part1(imgseq1, imgseq2, cam_params, cam1toW, cam2toW)
 
 %Point cloud for camera 1
 
 %Point cloud for camera 2
 
-%Merging point clouds into world coordinate frame
+%Detecting and eleminating background for camera 1 and 2
 
-%Detecting background 
+%Detecting objects in camera 1
 
-%Detecting objects 
+%Detecting objects in camera 2
 
-%Making correspondence between current and last image
+%Using SIFT to get correspondence between points in RGB
+
+%Get respective points in X,Y,Z
+
+%Run RANSAC to eliminate outliers
 
 %Drawing box around object and storing data
+
+%Making correspondence between current and last image
 
 end
