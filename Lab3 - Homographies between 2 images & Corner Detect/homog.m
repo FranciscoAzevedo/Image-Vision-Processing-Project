@@ -40,5 +40,5 @@ imagesc(imt1)
 figure
 imagesc(double(imt1)*.5+doulbe(imt2)*.5)
 imagesc(double(imt1)*.5+doble(imt2)*.5)
-imagesc(double(imt1)*.5+double(imt2)*.5)pts
+imagesc(double(imt1)*.5+double(imt2)*.5)
 imagesc(uint8(double(imt1)*.5+double(imt2)*.5))

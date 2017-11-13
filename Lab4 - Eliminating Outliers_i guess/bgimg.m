@@ -12,7 +12,7 @@ for i=1:length(d),
 end
 medim=median(double(ims),2);
 meddep=median(double(imsd),2);
-%bgim=rgb2gray(uint8(reshape(medim,[480 640 3])));
+bgim=rgb2gray(uint8(reshape(medim,[480 640 3])));
 bgim=(uint8(reshape(medim,[480 640])));
 bgimd=reshape(meddep,[480 640]);
 

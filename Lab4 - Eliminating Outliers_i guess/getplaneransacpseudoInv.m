@@ -1,13 +1,17 @@
-xyz=get_xyzasus(bgimd(:),[480 640],(1:480*640),Depth_cam.K,1,0);
-inds=find(xyz(:,3)~=0);
-xyz=xyz(inds,:);
-pc=pointCloud(xyz);
+
+xyz = get_xyz_asus(bgimd(:),[480 640],(1:480*640),Depth_cam.K,1,0);
+inds = find(xyz(:,3)~=0);
+xyz = xyz(inds,:);
+pc = pointCloud(xyz);
 showPointCloud(pc);
-%%%%%%%%%%%%%%ransac for 3D planes
+
+% Ransac for 3D planes
 errorthresh=0.1;
 niter=100;
-%generate sets of 3 points (randomly selected)
+
+% Generate sets of 3 points (randomly selected)
 aux=fix(rand(3*niter,1)*length(xyz))+1;
+
 %
 planos=[];
 numinliers=[];
