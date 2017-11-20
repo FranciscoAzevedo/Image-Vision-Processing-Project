@@ -3,8 +3,12 @@
 clear all; clc;
 
 % Opening dataset
-d = dir('rgb_image1_1.png');
-dd = dir('depth1_1.mat');
+d = dir('rgb_image1_2.png');
+dd = dir('depth1_2.mat');
+
+d1 = dir('rgb_image1_1.png');
+dd1 = dir('depth1_1.mat');
+
 ims=[];
 imsd=[];
 
@@ -28,20 +32,23 @@ median_depth = median(double(imsd),2);
 bgim = reshape(median_im,[480 640]);
 bgimd = reshape(median_depth,[480 640]);
 
-for i=1:length(d),
+% for i=1:length(d),
     
     im = rgb2gray(imread(d(i).name));
     
     foreg = abs(double(im) - double(bgim)) > 40; %foreground metric for colour
+    
     load(dd(i).name);
     
-    foregd = abs(double(depth_array) - bgimd) > 700; %foreground metric for depth
+    foregd = abs(double(depth_array) - bgimd) > 0; %foreground metric for depth
     
-    figure(1);
-    imshow(foreg)
     figure(2);
-    imshow(foregd)
-end
+    imshow([im foreg]);
+    figure(3);
+    imagesc([im foregd]);
+    colormap('jet');
+
+% end
 
 % end
 
