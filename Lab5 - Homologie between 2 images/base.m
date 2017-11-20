@@ -1,6 +1,6 @@
 d=dir('*.jpg');
 p={};for i=1:length(d),imagesc(imread(d(i).name));p=[p {ginput(3)}];end
-pb=p{3};
+pb = p{3};
 ims=[];
 for i=1:length(d),
     im=rgb2gray(imread(d(i).name));

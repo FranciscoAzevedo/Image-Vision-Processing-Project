@@ -4,9 +4,10 @@
 %   Description: Given RGB+D from camera 1 project point cloud w/colours
 %                Do the same for camera 2. Transform both cameras local 
 %                Coordinate frame into world frame and fuse into 1 PC w/colour
+%
+clear ; clc;
 
-clear all; clc;
-
+%% Getting the RGB+D data into two seperate coloured PC
 % Loading RGB+D image
 load('calib_asus.mat');
 
@@ -38,16 +39,50 @@ showPointCloud(pc1);
 figure(4)
 showPointCloud(pc2);
 
-% Getting the cam_to_W.R and cam_to_W.T for both cameras
 
+%% Getting the cam_to_W.R and cam_to_W.T for both cameras
+% Removing garbage points
+m1 = depth_1.depth_array >0;
+m2 = depth_2.depth_array >0;
+ 
+imaux1 = double(repmat(m1,[1,1,3])).*(double(rgb_1)/255);
+imaux2 = double(repmat(m2,[1,1,3])).*(double(rgb_2)/255);
 
+% Testing Harris corner detect
+% [bin_marker1, u1, v1] = harris(rgb2gray(imread('rgb_image1_1.png')), 2, 1000, 10, 1);
+% [bin_marker2, u2, v2] = harris(rgb2gray(imread('rgb_image2_1.png')), 2, 1000, 10, 1);
 
-% Transforming local coordinate frame into world coordinate fram
-xyzt_1 = (R_d_to_rgb *(xyz_1'))'; % 3x3 x 3xN -> 3xN + 3xN
-xyzt_2 = (R_d_to_rgb *(xyz_2'))'; % 3x3 x 3xN -> 3xN + 3xN
+% select figure with im1 and click 5 points
+figure(5);
+imagesc(imaux1);
+[u1,v1]= ginput(10);
+
+% select figure with im2 and click in the corresponding points
+figure(6);
+imagesc(imaux2);
+[u2,v2]= ginput(10);
+
+ind1 = sub2ind([480 640],uint64(v1),uint64(u1));
+ind2 = sub2ind([480 640],uint64(v2),uint64(u2));
+
+% Compute Centroids
+cent1 = mean(xyz_1(ind1,:))';
+cent2 = mean(xyz_1(ind2,:))';
+
+pc1 = xyz_1(ind1,:)' - repmat(cent1,1,10);
+pc2 = xyz_2(ind2,:)' - repmat(cent2,1,10);
+
+[a,b,c]=svd(pc2*pc1');
+R = a*c';
+
+%% Transforming local coordinate frame into world coordinate frame
+
+xyzt_1 = R *(xyz_1'-repmat(cent1,1,length(xyz_1)));
+xyzt_2 = xyz_2'-repmat(cent2,1,length(xyz_2));
+T = cent2 - R*cent1;
 
 % Merging 2 Point Clouds based on points already in world coord frame
-ptotal = pointCloud([xyzt_1 ; xyzt_2],'Color',[colour_l1; colour_21]);
+ptotal = pointCloud([xyzt_1' ; xyzt_2'],'Color',[colour_l1; colour_21]);
 figure(5);
 showPointCloud(ptotal);
 
