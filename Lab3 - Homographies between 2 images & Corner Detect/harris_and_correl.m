@@ -1,5 +1,5 @@
-
-[b r c]=harris(rgb2gray(imread('rgb_image1_1.png')),1,1000,10,1);
+im=rgb2gray(imread('rgb_image1_1.png'));
+[b r c]=harris(im,1,1000,10,1);
 figure(1);clf;
 imagesc(im);
 hold;

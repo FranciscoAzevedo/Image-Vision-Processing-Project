@@ -23,7 +23,7 @@ figure(3);clf; showPointCloud(pc1);
 figure(4);clf; showPointCloud(pc2);
 
 %GET CORRESPONDING POINTS
-np = 8;
+np = 4;
 figure(1);x1=zeros(np,1);y1=x1;x2=y1;y2=x1;
 for i=1:np,
     figure(1);

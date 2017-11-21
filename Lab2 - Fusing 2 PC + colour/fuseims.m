@@ -70,9 +70,10 @@ R12 = a*c'
 
 %%
 %This is the Translation Matrix!
+T=cent2-R12*cent1;
 xyzt1=R12*(xyz1'-repmat(cent1,1,length(xyz1)));
 xyzt2=xyz2'-repmat(cent2,1,length(xyz2));
-% T=cent2-R12*cent1;
+
 
 %%
 % Show final result

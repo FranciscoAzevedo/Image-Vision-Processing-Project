@@ -55,12 +55,12 @@ imaux2 = double(repmat(m2,[1,1,3])).*(double(rgb_2)/255);
 % select figure with im1 and click 5 points
 figure(5);
 imagesc(imaux1);
-[u1,v1]= ginput(10);
-
+[u1] = [210.638248847926;278.472350230415;274.048387096774;448.057603686636;452.481566820276;490.822580645161];
+[v1] = 
 % select figure with im2 and click in the corresponding points
 figure(6);
 imagesc(imaux2);
-[u2,v2]= ginput(10);
+[u2,v2]= ginput(6);
 
 ind1 = sub2ind([480 640],uint64(v1),uint64(u1));
 ind2 = sub2ind([480 640],uint64(v2),uint64(u2));
@@ -69,17 +69,17 @@ ind2 = sub2ind([480 640],uint64(v2),uint64(u2));
 cent1 = mean(xyz_1(ind1,:))';
 cent2 = mean(xyz_1(ind2,:))';
 
-pc1 = xyz_1(ind1,:)' - repmat(cent1,1,10);
-pc2 = xyz_2(ind2,:)' - repmat(cent2,1,10);
+pc1 = xyz_1(ind1,:)' - repmat(cent1,1,6);
+pc2 = xyz_2(ind2,:)' - repmat(cent2,1,6);
 
 [a,b,c]=svd(pc2*pc1');
 R = a*c';
 
 %% Transforming local coordinate frame into world coordinate frame
-
-xyzt_1 = R *(xyz_1'-repmat(cent1,1,length(xyz_1)));
-xyzt_2 = xyz_2'-repmat(cent2,1,length(xyz_2));
 T = cent2 - R*cent1;
+xyzt_1 = R *(xyz_1'-repmat(T,1,length(xyz_1))) ;
+xyzt_2 = xyz_2'-repmat(cent2,1,length(xyz_2));
+
 
 % Merging 2 Point Clouds based on points already in world coord frame
 ptotal = pointCloud([xyzt_1' ; xyzt_2'],'Color',[colour_l1; colour_21]);
