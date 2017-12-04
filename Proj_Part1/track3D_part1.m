@@ -10,10 +10,12 @@ function objects = track3D_part1(imgseq1, imgseq2, cam_params, cam1toW, cam2toW)
 
 %Get Foreground in depth points for both cameras
 
-cam_1_fg = fg_detect( RGB_PATH1, RGB_PATH2, DEPTH_PATH1, DEPTH_PATH2);
-cam_2_fg = fg_detect(RGB_PATH1, RGB_PATH2, DEPTH_PATH1, DEPTH_PATH2);
+[foreground_depth1, foreground_img1] = fg_detect( RGB_PATH1, RGB_PATH2, DEPTH_PATH1, DEPTH_PATH2);
+[foreground_depth2, foreground_img2] = fg_detect(RGB_PATH1, RGB_PATH2, DEPTH_PATH1, DEPTH_PATH2);
 
 %Correspond those points into RGB
+
+
 
 %Draw a 2D box around it
 
