@@ -12,25 +12,8 @@ d_d1 = dir('depth1_14.mat');
 ims1 = [];
 ims_d1 = [];
 
-% Converting image 1 to gray and to column vectors
-im = rgb2gray(imread(d1.name));
-load(d_d1.name);
-ims1 = [ims1 im(:)];
-ims_d1 =[ims_d1 depth_array(:)];
-
-% Apply filter to have stronger border contrast
-median_im1 = median(double(ims1),2);
-median_depth1 = median(double(ims_d1),2);
-
-% Apply interpolation to fix some background
-
-
-% Getting vector back into 640x480
-bg_img1 = reshape(median_im1,[480 640]); %RGB BG can be usefull but prob not
-bg_depth1 = reshape(median_depth1,[480 640]);
-
 % Getting the foreground in depth between 2 images (store value and bin matrix)
-load(d1.name);
+load(d_d1.name);
 fg_depth = abs(double(depth_array) - bg_depth1);
 fg_depth_bin = fg_depth > 50; %Save binary img
 fg_filtered = bwareaopen(fg_depth_bin,50);
