@@ -2,8 +2,6 @@
 % Detects Foreground of a given RGB+D image using depth info
 clc;
 
-load('cameraparametersAsus.mat');
-
 % Opening dataset
 d1 = dir('rgb_image1_14.png');
 d_d1 = dir('depth1_14.mat');
