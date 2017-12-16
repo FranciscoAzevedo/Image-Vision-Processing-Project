@@ -1,12 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    peopletracking.m                                       %
+%    track3D_part2.m                                       %
 %    Program developed by:     Francisco Azevedo (80966)    %
 %                              Luís Almeida ()              %
 %                              Francisco Pereira ()         %
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function objects = track3D_part1(imgseq1, imgseq2, cam_params, cam1toW, cam2toW)
+function objects = track3D_part2(imgseq1, imgseq2, cam_params, cam1toW, cam2toW)
 %% Get Background for the whole program
 imgseq1 = dir('*.png');
 imgseq2 = dir('*.png');

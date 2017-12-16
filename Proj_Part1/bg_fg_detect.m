@@ -1,3 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    bg_fg_detect.m                                         %
+%    Program developed by:     Francisco Azevedo (80966)    %
+%                              Luís Almeida ()              %
+%                              Francisco Pereira ()         %
+%    At IST, Lisbon 2017                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Detects Background of a given RGB+D image using depth info
 d1 = dir('*.png');
 d_d1 = dir('*.mat');
@@ -50,10 +57,6 @@ showPointCloud(pc1);
 [idx3,C,sumd3] = kmeans(xyz_1,3,'Distance','cityblock','Replicates',5);
 [idx2,C,sumd2] = kmeans(xyz_1,2,'Distance','cityblock','Replicates',5);
 [idx1,C,sumd1] = kmeans(xyz_1,1,'Distance','cityblock','Replicates',5);
-
-sumd2 = mean(sumd2);
-sumd3 = mean(sumd3);
-
 
 % end
 
