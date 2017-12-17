@@ -6,14 +6,12 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
+function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
     % Get the T and R transformation matrices using SIFT and RANSAC
 
     % Using SIFT to get matches
     [nmatches, matches,f1, d1, f2, d2] = sift_match(im1, imd1, im2, imd2);
-    
-    ransac_iterations = 10;
-    
+
     % RANSAC
     for j=1:ransac_iterations
         
@@ -41,17 +39,15 @@
     
     % Plot PC's and PCs merged
     figure(1);
-    pc1 = pointCloud(xyzd1);
-    showPointCloud(imd1);
+    pc1 = pointCloud(imd1);
+    showPointCloud(pc1);
 
     figure(2);
-    pc2 = pointCloud(xyzd2);
-    showPointCloud(imd2);    
+    pc2 = pointCloud(imd2);
+    showPointCloud(pc2);    
     
     figure(3);
-    xyz_2_to_1 = (imd2(:)*R)+ ones(length(imd2(:)),1)*(T(1,:));
-    
     figure(4);
     figure(5);
-% end 
+end 
 

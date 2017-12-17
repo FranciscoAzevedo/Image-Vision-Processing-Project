@@ -5,7 +5,7 @@
 %                              Francisco Pereira ()         %
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [nmatches, matches,f1, d1, f2, d2, PP1, PP2] = sift_match(im1, imd1, im2, imd2)
+function [nmatches, matches,f1, d1, f2, d2] = sift_match(im1, imd1, im2, imd2)
     
     % Convert to grayscale
     im1g = rgb2gray(im1);
@@ -66,9 +66,9 @@ function [nmatches, matches,f1, d1, f2, d2, PP1, PP2] = sift_match(im1, imd1, im
         return;
     end
 
-    ret = createPs( matches, imd1, f1, imd2, f2); 
+%     ret = createPs( matches, imd1, f1, imd2, f2); 
 
-    PP1 = ret.P1; %+ noise_factor * rand(3,nmatches); 
-    PP2 = ret.P2; %+ noise_factor * rand(3,nmatches);
+%     PP1 = ret.P1 + noise_factor * rand(3,nmatches); 
+%     PP2 = ret.P2 + noise_factor * rand(3,nmatches);
     
 end
