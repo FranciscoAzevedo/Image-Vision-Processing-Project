@@ -40,7 +40,7 @@ fg_depth_bin = fg_depth > 700; %Detect close enough objects
 [grad_x, grad_y] = gradient(fg_depth);
 mag_grad = sqrt(grad_x.^2 + grad_y.^2);
 mag_grad(mag_grad < 2000) = 0;
-mag_grad = not(mag_grad);
+mag_grad = not(mag_grad); % invert values
 
 % Apply the filters (split different objects and filter garbage)
 segmented_fg = fg_depth_bin.*mag_grad;
