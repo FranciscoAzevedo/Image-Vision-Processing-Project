@@ -1,5 +1,5 @@
 function ret = create_matched_xyz( subset, imd1, f1, imd2, f2)
-% This function creates the matches between 2 PC, which means it
+% This function selects by index the matches between 2 PC, which means it
 % will get, in both PC's, the points choosen by the SIFT (lord)
 
     P1 = []; P2 = [];

@@ -11,6 +11,7 @@ function [R, T, P1, P2, subset, error] = ransac_iteration(matches, imd1, f1, imd
     % Get a subset "Y" of size 4 from "matches" (coordinates of cols are on Y)
     [subset, Y] = vl_colsubset(matches,4);
     
+    % Select only the points (in each PC) that were matched by SIFT
     ret = create_matched_xyz(subset, imd1, f1, imd2, f2);
     
     % P1 and P2 are matches in both camera frames
@@ -21,11 +22,9 @@ function [R, T, P1, P2, subset, error] = ransac_iteration(matches, imd1, f1, imd
     % T — Orthogonal rotation and reflection component
     % b — Scale component
 
-    [error,transf_points,transf_matrix] = procrustes(P1,P2,'scaling',false,'reflection',false);
+    [error,transf_points,transf_matrix] = procrustes(P1',P2','scaling',false,'reflection',false);
     
     R = transf_matrix.T;
     T = transf_matrix.c;
-
-    xyz_2_to_1 = (imd2*transf_matrix.T)+ ones(length(imd2),1)*(transf_matrix.c(1,:));
     
 end

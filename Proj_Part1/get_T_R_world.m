@@ -39,19 +39,21 @@
     P2 = aux(j).P2;
     error = min_score;
     
+    xyzd1 = reshape(imd1,480*640,3);
+    xyzd2 = reshape(imd2,480*640,3);
+    xyz_2_to_1 = (xyzd2*R) + ones(length(xyzd2),1)*(T(1,:));
+    
     % Plot PC's and PCs merged
     figure(1);
     pc1 = pointCloud(xyzd1);
-    showPointCloud(imd1);
+    showPointCloud(pc1);
 
     figure(2);
     pc2 = pointCloud(xyzd2);
-    showPointCloud(imd2);    
+    showPointCloud(pc2);    
     
     figure(3);
-    xyz_2_to_1 = (imd2(:)*R)+ ones(length(imd2(:)),1)*(T(1,:));
-    
-    figure(4);
-    figure(5);
+    pc3 = pointCloud(xyz_2_to_1);
+    showPointCloud(pc3);    
 % end 
 
