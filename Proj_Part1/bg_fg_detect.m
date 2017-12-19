@@ -1,11 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %    bg_fg_detect.m                                         %
 %    Program developed by:     Francisco Azevedo (80966)    %
-%                              Lu?s Almeida ()              %
-%                              Francisco Pereira ()         %
+%                              Luis Almeida (81232)         %
+%                              Francisco Pereira (81381)    %
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [fg_depth1,fg_depth1_bin, fg_img1, fg_img1_bin] = bg_fg_detect(img_seq)
+
+function [fg_depth,filtered_fg_final] = bg_fg_detect(img_seq)
     %Detects Background of a given RGB+D image using depth info
     
     % Allocating memory
@@ -14,8 +15,9 @@ function [fg_depth1,fg_depth1_bin, fg_img1, fg_img1_bin] = bg_fg_detect(img_seq)
 
     % Opening images and storing in ims and imsd struct
     for i=1:length(img_seq)
-        im = rgb2gray(imread(img_seq(i).rgb));
-        load(img_seq(i).depth);
+        
+        im = rgb2gray(imread(img_seq.rgb(i).name));
+        load(img_seq.depth(i).name);
 
         % Convert to column vector to apply filters
         ims = [ims im(:)];
@@ -32,7 +34,7 @@ function [fg_depth1,fg_depth1_bin, fg_img1, fg_img1_bin] = bg_fg_detect(img_seq)
 
     % Getting the foreground (REMINDER: NOT PROCESSING COLOUR HERE)
     %escolher imagem ainda:
-    load(img_seq(4).rbg);
+    load(img_seq.depth(17).name);
     
     fg_depth = abs(double(depth_array) - bg_depth);
     fg_depth_bin = fg_depth > 800; %Detect close enough objects
@@ -49,10 +51,10 @@ function [fg_depth1,fg_depth1_bin, fg_img1, fg_img1_bin] = bg_fg_detect(img_seq)
     filtered_fg_final = bwareaopen(filtered_fg,2000);
 
     %% Projects points into XYZ coordinates to identify objects
-    xyz_1 = get_xyz_asus(filtered_fg_final(:),[480 640],1:640*480, cam_params.Kdepth ,1,0);
-
-    pc1 = pointCloud(xyz_1);
-    showPointCloud(pc1);
+%     xyz_1 = get_xyz_asus(filtered_fg_final(:),[480 640],1:640*480, cam_params.Kdepth ,1,0);
+% 
+%     pc1 = pointCloud(xyz_1);
+%     showPointCloud(pc1);
 
 end
 

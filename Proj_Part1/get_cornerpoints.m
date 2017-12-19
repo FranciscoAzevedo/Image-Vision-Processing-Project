@@ -1,11 +1,11 @@
 function [ cornerpoints ] = get_cornerpoints( PC )
 
-    min_x = min(PC(:,1));
-    max_x = max(PC(:,1));
-    min_y = min(PC(:,2));
-    max_y = max(PC(:,2));
-    min_z = min(PC(:,3));
-    max_z = max(PC(:,3));
+    min_x = PC.XLimits(1);
+    max_x = PC.XLimits(2);
+    min_y = PC.YLimits(1);
+    max_y = PC.YLimits(2);
+    min_z = PC.ZLimits(1);
+    max_z = PC.ZLimits(2);
     
     cornerpoints(1,:) = [min_x, min_y, min_z];
     cornerpoints(2,:) = [min_x, max_y, min_z];

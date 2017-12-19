@@ -6,7 +6,7 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
+function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
     % Get the T and R transformation matrices using SIFT and RANSAC
 
     % Using SIFT to get matches
@@ -47,13 +47,17 @@
     figure(1);
     pc1 = pointCloud(xyzd1);
     showPointCloud(pc1);
-
+    title('CAM 1');
+    
     figure(2);
     pc2 = pointCloud(xyzd2);
-    showPointCloud(pc2);    
+    showPointCloud(pc2);
+    title('CAM 2');
     
     figure(3);
     pc3 = pointCloud(xyz_2_to_1);
-    showPointCloud(pc3);    
-% end 
+    showPointCloud(pc3); 
+    title('Final one merged');
+    
+end 
 
