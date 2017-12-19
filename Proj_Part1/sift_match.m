@@ -22,7 +22,7 @@ function [nmatches, matches,f1, d1, f2, d2] = sift_match(im1, imd1, im2, imd2)
     [f1,d1] = vl_sift(im1g) ;
     [f2,d2] = vl_sift(im2g) ;
 
-    thres = 7;
+    thres = 10;
 
     % Match descriptors regarding a decreasing threshold + exclude invalid depth points
     while thres > 1.5
