@@ -15,7 +15,7 @@ function [fg_depth1,fg_depth1_bin, fg_img1, fg_img1_bin] = bg_fg_detect(img_seq)
     % Opening images and storing in ims and imsd struct
     for i=1:length(img_seq)
         im = rgb2gray(imread(img_seq(i).rgb));
-        load(img_seq(i).depth);
+        load(d_d1(i).name);
 
         % Convert to column vector to apply filters
         ims = [ims im(:)];
@@ -31,9 +31,7 @@ function [fg_depth1,fg_depth1_bin, fg_img1, fg_img1_bin] = bg_fg_detect(img_seq)
     bg_depth = reshape(median_depth,[480 640]);
 
     % Getting the foreground (REMINDER: NOT PROCESSING COLOUR HERE)
-    %escolher imagem ainda:
-    load(img_seq(4).rbg);
-    
+    load(d_d1(4).name);
     fg_depth = abs(double(depth_array) - bg_depth);
     fg_depth_bin = fg_depth > 800; %Detect close enough objects
 

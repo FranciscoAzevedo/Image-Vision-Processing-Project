@@ -1,0 +1,13 @@
+function [ img_seq1,img_seq2 ] = creates_structures( )
+%UNTITLED Summary of this function goes here
+%   Detailed explanation goes here
+
+imgseq1.rgb = dir('*.png');
+imgseq2 = dir('*.ma); 
+imgseq2.rgb = dir('*.png');
+
+
+
+
+end
+
