@@ -32,19 +32,19 @@ bg_rgb = reshape(median_rgb,[480 640]);
 bg_depth = reshape(median_depth,[480 640]);
 
 % Getting the foreground (REMINDER: NOT PROCESSING COLOUR HERE)
-load(d_d1(4).name);
+load(d_d1(5).name);
 fg_depth = abs(double(depth_array) - bg_depth);
 fg_depth_bin = fg_depth > 700; %Detect close enough objects
 
 % Calculate gradients
 [grad_x, grad_y] = gradient(fg_depth);
 mag_grad = sqrt(grad_x.^2 + grad_y.^2);
-mag_grad(mag_grad < 2000) = 0;
+mag_grad(mag_grad < 1000) = 0;
 mag_grad = not(mag_grad); % invert values
 
 % Apply the filters (split different objects and filter garbage)
 segmented_fg = fg_depth_bin.*mag_grad;
-filtered_fg = imopen(segmented_fg,strel('disk',2));
+filtered_fg = imopen(segmented_fg,strel('disk',3));
 filtered_fg_final = bwareaopen(filtered_fg,2000);
 
 %% Projects points into XYZ coordinates to identify objects
