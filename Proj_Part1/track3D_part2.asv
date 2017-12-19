@@ -25,8 +25,8 @@ imsd = [];
 labels_1 = bwlabel(fg_depth1_bin);
 labels_2 = bwlabel(fg_depth2_bin);
 
-[obj_cam1]= get_objects_3D(labels_1,fg_depth1, xyz1);
-[obj_cam2]= get_objects_3D(labels_2,fg_depth2, xyz2);
+get_objects_3D
+
 
 
 transform_Cam2to_cam1
