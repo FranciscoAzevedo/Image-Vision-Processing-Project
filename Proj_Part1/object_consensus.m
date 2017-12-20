@@ -44,8 +44,7 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number,
         
         [objects] = detect_loners( obj_cam1, 1, loners_1, objects,R,T );
         [objects] = detect_loners( obj_cam2, 2, loners_2, objects,R,T );
-        
-<<<<<<< HEAD
+
         showPointCloud(PC);
         hold on;
         
@@ -60,9 +59,7 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number,
         %adicionar campo "point_cloud" para converter para rbg o objeto -
         %util para fazer tracking entre frames
         %objects(i).PC = PC;
-       
-=======
->>>>>>> master
+
     end
     
     %% If only camera 1 has objects
