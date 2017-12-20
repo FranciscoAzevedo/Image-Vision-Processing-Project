@@ -19,8 +19,6 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
     [bg_depth2] = bg_detect(imgseq2);
     
     number_of_frames = 5;
-    obj_cam1 = [];
-    obj_cam2 = [];
     
     for k = 1:number_of_frames
         
@@ -34,20 +32,18 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
         % Label objects in 2D
         labels_1 = bwlabel(fg_depth1_bin);
         labels_2 = bwlabel(fg_depth2_bin);
-        
-        % Get PC and centroids for camera 1 if theres objects
+
         if(isempty(find(labels_1 == 1)) == 0)
+  
             [obj_cam1] = get_objects_3D(labels_1,fg_depth1, xyz1);
         end
-        
-        % Get PC and centroids for camera 2 if theres objects
+
         if(isempty(find(labels_2 == 1)) == 0)
+            % Get PC and centroids for camera 1
             [obj_cam2] = get_objects_3D(labels_2,fg_depth2, xyz2);
         end
-        
         % Only process objects if it actually has objects 
-        if(isempty(find(labels_1 == 1, 1)) == 0 || isempty(find(labels_2 == 1, 1)) == 0)
-            
+        if(isempty(find(labels_1 == 1)) == 0 || isempty(find(labels_2 == 1)) == 0)
             % Get the final cornerpoints for all objects
             [objects] = object_consensus(obj_cam1, obj_cam2, R, T, k);
         end

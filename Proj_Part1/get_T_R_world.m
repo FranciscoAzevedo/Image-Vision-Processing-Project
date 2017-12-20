@@ -12,7 +12,7 @@ function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
     % Using SIFT to get matches
     [nmatches, matches,f1, d1, f2, d2] = sift_match(im1, imd1, im2, imd2);
     
-    ransac_iterations = 10;
+    ransac_iterations = 20;
     
     % RANSAC
     for j=1:ransac_iterations

@@ -9,7 +9,7 @@
 function [R, T, P1, P2, subset, error] = ransac_iteration(matches, imd1, f1, imd2, f2, nmatches)
     
     % Get a subset "Y" of size 4 from "matches" (coordinates of cols are on Y)
-    [subset, Y] = vl_colsubset(matches,4);
+    [subset, Y] = vl_colsubset(matches,6);
     
     % Select only the points (in each PC) that were matched by SIFT
     ret = create_matched_xyz(subset, imd1, f1, imd2, f2);

@@ -15,13 +15,13 @@
 rgbImage = imread('rgb_image1_15.png');
 
 %[counts, binlocations] = imhist(rgbImage,4)
-I=rgbImage;
+I = rgbImage;
 
 R=imhist(I(:,:,1),4);
 G=imhist(I(:,:,2),4);
 B=imhist(I(:,:,3),4);
 
-figure
+figure(1);
 stem(R,'r');
 hold on;
 stem(G,'g');
@@ -29,7 +29,6 @@ hold on;
 stem(B,'b');
 hold on;
 legend(' Red channel','Green channel','Blue channel');
-figure();
 
 rgbImage = imread('rgb_image1_16.png');
 
@@ -40,7 +39,7 @@ R=imhist(I(:,:,1),4);
 G=imhist(I(:,:,2),4);
 B=imhist(I(:,:,3),4);
 
-figure
+figure(2);
 stem(R,'r');
 hold on;
 stem(G,'g');

@@ -1,17 +1,18 @@
-function [ objects ] = object_consensus( obj_cam1, obj_cam2, R,T ) 
-    
+function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number ) 
+
+
     for i = 1:length(obj_cam1)
         for j = 1:length(obj_cam2)
             
             % Transformar centroide cam2 na cam1
             new_centroid2 = (obj_cam2(j).centroid)*R + T(1,:);
             
-            % Comparar dist�ncias entre centr�ides
+            % Comparar distancias entre centroides
             dist(i).distances(j) = sqrt(sum(new_centroid2-obj_cam1.centroid(i)).^2);
             
         end
         
-        % Escolher centr�ide mais perto
+        % Escolher centroide mais perto
         [M,I] = min(dist(i).distances);
         
         % Merge das respectivas point clouds
@@ -28,9 +29,10 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R,T )
         [corners] = get_cornerpoints(PC);
         plotminbox(corners);
         
-        objects(i).X = corners(:,1)';
-        objects(i).Y = corners(:,2)';
-        objects(i).Z = corners(:,3)';
+        objects(i).X(frame_number,:) = corners(:,1)';
+        objects(i).Y(frame_number,:) = corners(:,2)';
+        objects(i).Z(frame_number,:) = corners(:,3)';
+        objects(i).frames_tracked = frame_number;
         %adicionar campo "point_cloud" para converter para rbg o objeto -
         %util para fazer tracking entre frames
         %objects(i).PC = PC;

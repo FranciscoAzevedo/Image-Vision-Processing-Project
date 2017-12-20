@@ -24,7 +24,7 @@ function [ obj_cam ] = get_objects_3D(labels, fg_depth, xyz_cam)
         avg_depth = soma/length(r);
         
         for i = 1:length(r)
-            if(abs(double((fg_depth(r(i),c(i))) - avg_depth)) > 200)
+            if(abs(double((fg_depth(r(i),c(i))) - avg_depth)) > 300)
                 labels(r(i),c(i)) = 0;
             end
         end

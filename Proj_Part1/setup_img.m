@@ -6,7 +6,7 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [depth1,depth2,im1,im2,xyzd1,xyzd2,imd1,imd2] = setup_img(imgseq1, imgseq2, cam_params, k)
+function [im1,im2,xyzd1,xyzd2,imd1,imd2] = setup_img(imgseq1, imgseq2, cam_params, k)
 
 depth1 = load(imgseq1.depth(k).name);
 depth1 = depth1.depth_array;
