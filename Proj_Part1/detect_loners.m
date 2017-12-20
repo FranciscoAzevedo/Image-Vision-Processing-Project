@@ -1,4 +1,4 @@
-function [objects] = detect_loners( obj_cam, flag, loners, objects,R,T )
+function [objects] = detect_loners( obj_cam, flag, loners, objects,R,T, frame_number )
     
     if(flag == 1)
         for i = 1:length(loners)
@@ -8,28 +8,33 @@ function [objects] = detect_loners( obj_cam, flag, loners, objects,R,T )
             [corners] = get_cornerpoints(PC);
 
             % Store in objects structure
-            init = length(objects);
-            objects(1+init).X(frame_number,:) = corners(:,1)';
-            objects(1+init).Y(frame_number,:) = corners(:,2)';
-            objects(1+init).Z(frame_number,:) = corners(:,3)';
-            objects(1+init).frames_tracked = frame_number;
+            objects(1+init).X(1,:) = corners(:,1)';
+            objects(1+init).Y(1,:) = corners(:,2)';
+            objects(1+init).Z(1,:) = corners(:,3)';
+            objects(1+init).frames_tracked(1) = frame_number;
         end
     end
     if(flag == 2)
         for i = 1:length(loners)
-            PC = pointCloud(obj_cam(loners(i)).xyz);
             
-            transformed_PC = PC*R + ones(length(PC),1)*(T(1,:));
-
+            transformed_xyz = (obj_cam(loners(i)).xyz)*R + ones(length(obj_cam(loners(i)).xyz),1)*(T(1,:));
+            PC = pointCloud(transformed_xyz);
+            
             % Detectar cornerpoints
-            [corners] = get_cornerpoints(transformed_PC);
+            [corners] = get_cornerpoints(PC);
 
             % Store in objects structure
             init = length(objects);
-            objects(1+init).X(frame_number,:) = corners(:,1)';
-            objects(1+init).Y(frame_number,:) = corners(:,2)';
-            objects(1+init).Z(frame_number,:) = corners(:,3)';
-            objects(1+init).frames_tracked = frame_number;
+            
+%             if( init == 0)
+%                 r = 0;
+%             else
+%                 [r,c] = size(objects(init).X);
+%             end
+            objects(1+init).X(1,:) = corners(:,1)';
+            objects(1+init).Y(1,:) = corners(:,2)';
+            objects(1+init).Z(1,:) = corners(:,3)';
+            objects(1+init).frames_tracked(1) = frame_number;
         end
     end
 end
