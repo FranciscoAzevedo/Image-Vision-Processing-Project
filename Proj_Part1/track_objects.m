@@ -23,8 +23,6 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
 function [ output_args ] = track_objects( prev_frame_objects, atual_frame_objects, objects, n_frame_atual )
     
     %Erro de 10%
