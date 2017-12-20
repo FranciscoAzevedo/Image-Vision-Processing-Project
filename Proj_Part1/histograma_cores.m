@@ -1,50 +1,17 @@
-%para testar cena do histograma de cores
-% %Split into RGB Channels
-%     Red = rgbImage(:,:,1);
-%     Green = rgbImage(:,:,2);
-%     Blue = rgbImage(:,:,3);    
-%     %Get histValues for each channel
-%     [yRed, x] = imhist(Red,4);
-%     [yGreen, x] = imhist(Green,4);
-%     [yBlue, x] = imhist(Blue,4);
-%     %Plot them together in one plot
-%     %hist(x, yRed, 'Red', x, yGreen, 'Green', x, yBlue, 'Blue');
-%     
-%     stem(x,yRed);
-%----------------------------------------------------%
-rgbImage = imread('rgb_image1_15.png');
+function [ R , G , B ] = histograma_cores(PC);
 
-%[counts, binlocations] = imhist(rgbImage,4)
-I = rgbImage;
 
-R=imhist(I(:,:,1),4);
-G=imhist(I(:,:,2),4);
-B=imhist(I(:,:,3),4);
 
-figure(1);
-stem(R,'r');
-hold on;
-stem(G,'g');
-hold on;
-stem(B,'b');
-hold on;
-legend(' Red channel','Green channel','Blue channel');
+R=imhist(PC(:,:,1),4);
+G=imhist(PC(:,:,2),4);
+B=imhist(PC(:,:,3),4);
 
-rgbImage = imread('rgb_image1_16.png');
+total= sum (R+G+B);
 
-%[counts, binlocations] = imhist(rgbImage,4)
-I=rgbImage;
+%Do percentages of R , G , B
+R=R/total;
+G=G/total;
+B=B/total;
 
-R=imhist(I(:,:,1),4);
-G=imhist(I(:,:,2),4);
-B=imhist(I(:,:,3),4);
-
-figure(2);
-stem(R,'r');
-hold on;
-stem(G,'g');
-hold on;
-stem(B,'b');
-hold on;
-legend(' Red channel','Green channel','Blue channel');
-
+%do shit here
+end

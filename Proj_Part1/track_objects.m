@@ -23,7 +23,7 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ output_args ] = track_objects( prev_frame_objects, atual_frame_objects, objects, n_frame_atual )
+function [ prev_frame_objects, objects  ] = track_objects( prev_frame_objects, atual_frame_objects, objects, n_frame_atual )
     
     %Erro de 10%
     erro_treshold=0.1;
@@ -34,16 +34,16 @@ function [ output_args ] = track_objects( prev_frame_objects, atual_frame_object
         %%% Metam em prev_frame_objects(i).n_object que corresponde ao
         %%% numero ao j-th do objects(j)
         
-        for i =1:lenght(prev_frame_objects)
+        for i =1:lenght(atual_frame_objects)
             
                  % R G B da frame anterior (RGB é um vetor de quatro elementos)
-                [ Rp , Gp , Bp ] = histograma_cores(prev_frame_objects(i).PC_rgb);
+                [ Ra , Ga , Ba ] = histograma_cores(atual_frame_objects(i).PC_rgb);
                 
-                for j = 1:lenght(atual_frame_objects)
+                for j = 1:lenght(prev_frame_objects)
                        
                         
                         % R G B da frame atual
-                         [ Ra , Ga , Ba ] = histograma_cores(atual_frame_objects(j).PC_rgb);
+                         [ R , Gp , Bp ] = histograma_cores(prev_frame_objects(j).PC_rgb);
                                              
                         Erro_R=Rp-Ra;
                         Erro_G=Gp-Ga;
@@ -61,25 +61,59 @@ function [ output_args ] = track_objects( prev_frame_objects, atual_frame_object
                 if (index=min(Erro)<erro_treshold)
                     
                     %i-th object na estrutura objects
-                   atual_frame_objects(index).i_th_object = prev_frame_objects(i).i_th_object;
+                   atual_frame_objects(i).i_th_object = prev_frame_objects(index).i_th_object;
                    
                    % Numero de frames em que objecto foi detetado 
-                   atual_frame_objects(index).N_frame_detected = prev_frame_objects(i).N_frame_detected + 1;
+                   atual_frame_objects(i).N_frame_detected = prev_frame_objects(index).N_frame_detected + 1;
                    
                    %Poe os novos cantos nA estrutura objects
-                   objects(atual_frame_objects(index).i_th_object ).X(atual_frame_objects(index).N_frame_detected)= atual_frame_objects(index).X;
-                   objects(atual_frame_objects(index).i_th_object ).Y(atual_frame_objects(index).N_frame_detected)= atual_frame_objects(index).Y;
-                   objects(atual_frame_objects(index).i_th_object ).Z(atual_frame_objects(index).N_frame_detected)= atual_frame_objects(index).Z;
+                   objects(atual_frame_objects(i).i_th_object ).X(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).X;
+                   objects(atual_frame_objects(i).i_th_object ).Y(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Y;
+                   objects(atual_frame_objects(i).i_th_object ).Z(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Z;
                    % Atualiza o numero da frame que foi trackeada
-                   objects(atual_frame_objects(index).i_th_object ).frames_tracked(atual_frame_objects(index).N_frame_detected)=n_frame_atual; 
+                   objects(atual_frame_objects(i).i_th_object ).frames_tracked(atual_frame_objects(i).N_frame_detected)=n_frame_atual; 
+                  
+                    
                                      
                 else
                     % new object
+                  atual_frame_objects(i).i_th_object=lenght(object);
+                  % Primeira frame :)
+                  atual_frame_objects(i).N_frame_detected = 1;
+                  
+                  objects(atual_frame_objects(i).i_th_object ).X(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).X;
+                  objects(atual_frame_objects(i).i_th_object ).Y(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Y;
+                  objects(atual_frame_objects(i).i_th_object ).Z(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Z;
+                   % Atualiza o numero da frame que foi trackeada
+                  objects(atual_frame_objects(i).i_th_object ).frames_tracked(atual_frame_objects(i).N_frame_detected)=n_frame_atual; 
+                  
+                    
                 end
         end
+        % Atualiza o prev_frame e limpa o prev_.... de modo a não termos
+        % problema, no sei se isto impporta muito
+        clear var prev_frame_objects;
+        prev_frame_objects=  atual_frame_objects;
     else
-        %%%WILD OBJECT APPEARS baaaaaaaaah
-        
+        if (isempty(atual_frame_objects)==0)
+            %%%WILD OBJECT APPEARS baaaaaaaaah
+            % when the previous frame nothing shows up
+            % Pomos os novos objectos no objects e no prev
+            for i =1:length(atual_frame_objects)
+                atual_frame_objects(i).i_th_object=lenght(object); 
+                atual_frame_objects(i).N_frame_detected = 1;
+                  
+                objects(atual_frame_objects(i).i_th_object ).X(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).X;
+                objects(atual_frame_objects(i).i_th_object ).Y(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Y;
+                objects(atual_frame_objects(i).i_th_object ).Z(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Z;
+                % Atualiza o numero da frame que foi trackeada
+                objects(atual_frame_objects(i).i_th_object ).frames_tracked(atual_frame_objects(i).N_frame_detected)=n_frame_atual; 
+                
+            end
+            
+            % Atualiza os objectos da frame anterior
+           prev_frame_objects= atual_frame_objects;
+        end
         
         
     end
