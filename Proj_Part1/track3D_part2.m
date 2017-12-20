@@ -21,10 +21,11 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
     number_of_frames = 5;
     obj_cam1 = [];
     obj_cam2 = [];
+    objects = [];
     
     for k = 1:number_of_frames
         
-        % Setup of a given i-th image for both cameras
+        % Setup of a given k-th image for both cameras
         [im1,im2,xyz1,xyz2,imd1,imd2] = setup_img(imgseq1, imgseq2, cam_params, k);
         
         % Get foreground for both cameras
@@ -35,21 +36,21 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
         labels_1 = bwlabel(fg_depth1_bin);
         labels_2 = bwlabel(fg_depth2_bin);
         
-        % Get PC and centroids for camera 1 if theres objects
+        % Get PC and centroids for camera 1 if there is objects
         if(isempty(find(labels_1 == 1)) == 0)
             [obj_cam1] = get_objects_3D(labels_1,fg_depth1, xyz1);
         end
         
-        % Get PC and centroids for camera 2 if theres objects
+        % Get PC and centroids for camera 2 if there is objects
         if(isempty(find(labels_2 == 1)) == 0)
             [obj_cam2] = get_objects_3D(labels_2,fg_depth2, xyz2);
         end
         
         % Only process objects if it actually has objects 
-        if(isempty(find(labels_1 == 1, 1)) == 0 || isempty(find(labels_2 == 1, 1)) == 0)
+        if(isempty(length(obj_cam1)) == 0 || isempty(length(obj_cam1)) == 0) 
             
             % Get the final cornerpoints for all objects
-            [objects] = object_consensus(obj_cam1, obj_cam2, R, T, k);
+            [objects] = object_consensus(obj_cam1, obj_cam2, R, T, k, objects);
         end
         
         %Using SIFT to get correspondence between points in RGB

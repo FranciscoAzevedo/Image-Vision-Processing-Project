@@ -1,7 +1,7 @@
 function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number, objects ) 
     
     cnt = 1;
-    %% If both cameras have objects
+    %if both cameras have objects
     if(isempty(obj_cam1) == 0 && isempty(obj_cam2) == 0)    
         for i = 1:length(obj_cam1)
             for j = 1:length(obj_cam2)
@@ -38,7 +38,7 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number,
             end   
         end
         
-        % Finds the objects that are not matched (only in 1 of the cameras) 
+        %% LONERS %%
         loners_1 = find_loners(idx_chosen1, length(obj_cam1));
         loners_2 = find_loners(idx_chosen2, length(obj_cam2));
         
@@ -46,16 +46,31 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number,
         [objects] = detect_loners( obj_cam2, 2, loners_2, objects,R,T );
         
     end
-    
-    %% If only camera 1 has objects
+    %if only camera 1 has objects
     if(isempty(obj_cam1) == 0 && isempty(obj_cam2) == 1)
-        loners_1 = 1:length(obj_cam1);
-        [objects] = detect_loners( obj_cam1, 1, loners_1, objects,R,T );
+
+            % Detectar cornerpoints
+            [corners] = get_cornerpoints(pc1);
+            plotminbox(corners);
+
+            objects(i+init).X(frame_number,:) = corners(:,1)';
+            objects(i+init).Y(frame_number,:) = corners(:,2)';
+            objects(i+init).Z(frame_number,:) = corners(:,3)';
+            objects(i+init).frames_tracked = frame_number;
+
     end  
-    %% If only camera 2 has objects
+    %if only camera 2 has objects
     if(isempty(obj_cam1) == 1 && isempty(obj_cam2) == 0)
-        loners_2 = 1:length(obj_cam2);
-        [objects] = detect_loners( obj_cam2, 2, loners_2, objects,R,T );
+
+            % Detectar cornerpoints
+            [corners] = get_cornerpoints(pc1);
+            plotminbox(corners);
+
+            objects(i+init).X(frame_number,:) = corners(:,1)';
+            objects(i+init).Y(frame_number,:) = corners(:,2)';
+            objects(i+init).Z(frame_number,:) = corners(:,3)';
+            objects(i+init).frames_tracked = frame_number;
+
     end  
  
 end
