@@ -72,7 +72,7 @@ function [ output_args ] = track_objects( prev_frame_objects, atual_frame_object
                    objects(atual_frame_objects(index).i_th_object ).X(atual_frame_objects(index).N_frame_detected)= atual_frame_objects(index).X;
                    objects(atual_frame_objects(index).i_th_object ).Y(atual_frame_objects(index).N_frame_detected)= atual_frame_objects(index).Y;
                    objects(atual_frame_objects(index).i_th_object ).Z(atual_frame_objects(index).N_frame_detected)= atual_frame_objects(index).Z;
-                   % Atualiza o numero da frame que foi trackeada
+                   % Atualiza o 
                    objects(atual_frame_objects(index).i_th_object ).frames_tracked(atual_frame_objects(index).N_frame_detected)=n_frame_atual; 
                                      
                 else
