@@ -13,14 +13,21 @@ function [fg_depth,filtered_fg_final] = fg_detect(img_seq,frame_number,bg_depth)
     
     % Doing an average of depth without zeros (dead pixels)
     fg_depth = abs(double(depth_array) - bg_depth);
-%     [r,c] = find(fg_depth ~= 0);
-%     for i = 1:length(r)
-%         cnt = cnt + fg_depth(r(i),c(i));
-%     end
-%     if(length(r) == 0)
-%         thres = cnt/(length(r));
-%     end
-    fg_depth_bin = fg_depth > 800; %Detect close enough objects
+    cnt = 0;
+    imshow(fg_depth);
+    
+    [r,c] = find(fg_depth ~= 0);
+    for i = 1:length(r)
+        cnt = cnt + fg_depth(r(i),c(i));
+    end
+    
+    if(isempty(r) == 1)
+        cnt = 1;
+    end    
+    
+    thres = cnt/(length(r));
+    fg_depth_bin = fg_depth > thres; %Detect close enough objects
+    imshow(fg_depth_bin);
     
     % Calculate gradients
     [grad_x, grad_y] = gradient(fg_depth);
