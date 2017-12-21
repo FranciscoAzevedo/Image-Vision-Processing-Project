@@ -16,7 +16,7 @@ function [objects, actual_frames_objects] = track_objects(prev_frames_objects, a
     % objects -> Struct that has all the objects 
 
     % 10% Error threshold
-    erro_threshold = 0.08;
+    erro_threshold = 0.1;
     
     % In case there are objects in both frames
     if( isempty(prev_frames_objects) == 0 && isempty(actual_frames_objects) == 0) 
