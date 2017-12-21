@@ -40,11 +40,14 @@ function [ obj_cam ] = get_objects_3D(labels, fg_depth, xyz_cam, rgb)
         rgb = reshape(rgb, 480*640,3);
         rgb = rgb(sub2ind([480 640],r,c),:);
         
-        % Delete invalid points both on 3D and rgb
+        % Delete invalid point
         todelete = (obj_cam(label_num).xyz(:,1) == 0 & obj_cam(label_num).xyz(:,2) == 0 & obj_cam(label_num).xyz(:,3) == 0);
         obj_cam(label_num).xyz(todelete,:) = [];
         rgb(todelete,:) = [];
+        
         obj_cam(label_num).rgb = rgb;
+        pc1 = pointCloud(obj_cam(label_num).xyz, 'Color', rgb);
+        showPointCloud(pc1);
         
         % Get the centroid of these points
         [idx,C] = kmeans(obj_cam(label_num).xyz,1);

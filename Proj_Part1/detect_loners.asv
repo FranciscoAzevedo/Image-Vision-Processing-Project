@@ -3,7 +3,7 @@ function [objects] = detect_loners( obj_cam, flag, loners, objects,R,T, frame_nu
     if(flag == 1)
         for i = 1:length(loners)
             PC = pointCloud(obj_cam(loners(i)).xyz);
-            PC1 = pointCloud(obj_cam(loners(i)).xyz ,'Color', obj_cam(loners(i)).rgb);            
+                        
             % Detectar cornerpoints
             [corners] = get_cornerpoints(PC);
 

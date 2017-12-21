@@ -23,7 +23,7 @@ function [objects] = track_objects(prev_frame_objects, atual_frame_objects, obje
     erro_treshold = 0.1;
     
     % Caso haja um objecto na frame anterior
-    if( isempty(prev_frame_objects) == 0 && isempty(atual_frame_objects) == 0) 
+    if isempty(prev_frame_objects)==0
         
         % METAM em objects(i).PC_rgb AS CORES DA POINT CLOUD!!!!!!!!!!!!
         % Metam em prev_frame_objects(i).n_object que corresponde ao
@@ -81,6 +81,27 @@ function [objects] = track_objects(prev_frame_objects, atual_frame_objects, obje
         % problema, no sei se isto impporta muito
         clear var prev_frame_objects;
         prev_frame_objects =  atual_frame_objects;
+        
+    else
+        if (isempty(atual_frame_objects)==0)
+            %%%WILD OBJECT APPEARS baaaaaaaaah
+            % when the previous frame nothing shows up
+            % Pomos os novos objectos no objects e no prev
+            for i =1:length(atual_frame_objects)
+                atual_frame_objects(i).i_th_object=lenght(object); 
+                atual_frame_objects(i).N_frame_detected = 1;
+                  
+                objects(atual_frame_objects(i).i_th_object).X(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).X;
+                objects(atual_frame_objects(i).i_th_object).Y(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Y;
+                objects(atual_frame_objects(i).i_th_object).Z(atual_frame_objects(i).N_frame_detected)= atual_frame_objects(i).Z;
+                % Atualiza o numero da frame que foi trackeada
+                objects(atual_frame_objects(i).i_th_object ).frames_tracked(atual_frame_objects(i).N_frame_detected)=n_frame_atual; 
+                
+            end
+            
+            % Atualiza os objectos da frame anterior
+            prev_frame_objects = atual_frame_objects;
+        end
     end
 end
 
