@@ -82,6 +82,6 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
             
         end
         
-        plot_boxes_and_PC(imgseq1,imgseq2,k,objects);
+%         plot_boxes_and_PC(xyz1,xyz2,k,objects, R,T);
     end
 end

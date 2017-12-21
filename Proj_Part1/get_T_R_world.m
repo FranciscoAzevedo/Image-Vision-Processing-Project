@@ -15,8 +15,7 @@ function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
     ransac_iterations = 20;
     
     % RANSAC
-    for j=1:ransac_iterations
-        
+    for j=1:ransac_iterations    
         [R, T, P1, P2, subset, e] = ransac_iteration(matches, imd1, f1, imd2, f2, nmatches);
         
         error(j) = e;
@@ -27,7 +26,6 @@ function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
         aux(j).P1 = P1;
         aux(j).P2 = P2;
         aux(j).subset = subset;
-
     end
 
     [min_score,min_idx] = min(error);
@@ -43,21 +41,21 @@ function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
     xyzd2 = reshape(imd2,480*640,3);
     xyz_2_to_1 = (xyzd2*R) + ones(length(xyzd2),1)*(T(1,:));
     
-    % Plot PC's and PCs merged
+%     %Plot PC's and PCs merged
 %     figure(1);
 %     pc1 = pointCloud(xyzd1);
 %     showPointCloud(pc1);
 %     title('CAM 1');
 %     
 %     figure(2);
-%     pc2 = pointCloud(xyzd2);
+%     pc2 = pointCloud(xyz_2_to_1);
 %     showPointCloud(pc2);
 %     title('CAM 2');
 %     
 %     figure(3);
-%     pc3 = pointCloud(xyz_2_to_1);
+%     pc3 = pcmerge(pc1,pc2,0.001);
 %     showPointCloud(pc3); 
 %     title('Final one merged');
-%     
+   
 end 
 

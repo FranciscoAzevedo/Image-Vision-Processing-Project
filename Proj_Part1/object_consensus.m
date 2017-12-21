@@ -21,14 +21,15 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number,
             % Escolher centroide mais perto
             [M,I] = min(dist(i).distances);
             
-            if(M < 200)
+            if(M < 300)
                 % Merge das respectivas point clouds
                 xyz_2_to_1 = obj_cam2(I).xyz*R + ones(length(obj_cam2(I).xyz),1)*(T(1,:));
                 pc1 = pointCloud(obj_cam1(i).xyz);
                 pc2 = pointCloud(xyz_2_to_1);
-                PC = pcmerge(pc1,pc2,1);
+                PC = pcmerge(pc1,pc2,0.001);
                 PC1 = pointCloud([obj_cam1(i).xyz ; xyz_2_to_1],'Color',[obj_cam1(i).rgb; obj_cam2(I).rgb]);
-             
+                showPointCloud(PC1);
+                
                 % Storing index of matched objects
                 idx_chosen1(cnt) = i;
                 idx_chosen2(cnt) = I;
