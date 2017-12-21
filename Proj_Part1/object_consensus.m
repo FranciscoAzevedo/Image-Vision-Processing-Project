@@ -1,7 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    object_consensus                                       %
+%    Program developed by:     Francisco Azevedo (80966)    %
+%                              Luis Almeida (81232)         %
+%                              Francisco Pereira (81381)    %
+%    At IST, Lisbon 2017                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number, objects ) 
-    
-    cnt = 1;
     %% If both cameras have objects
+    cnt = 1;
     if(isempty(obj_cam1) == 0 && isempty(obj_cam2) == 0)    
         for i = 1:length(obj_cam1)
             for j = 1:length(obj_cam2)

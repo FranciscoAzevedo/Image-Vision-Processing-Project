@@ -2,7 +2,8 @@
 %    track_objects                                          %
 %    Program developed by:     Francisco Azevedo (80966)    %
 %                              Luis Almeida (81232)         %
-%                              Francisco Pereira (81381)    %
+%                              Francisco Pereira (81381)    %                   
+%                                                           %
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -15,8 +16,8 @@ function [objects] = track_objects(prev_frame_objects, actual_frame_objects, obj
     % actual_frame_objects -> Struct that has the objects of the actual frame    
     % objects -> Struct that has all the objects 
 
-    % 10% Error threshold
-    erro_threshold = 0.1;
+    %Erro de 10%
+    erro_treshold = 0.1;
     
     % In case there are objects in both frames
     if( isempty(prev_frame_objects) == 0 && isempty(actual_frame_objects) == 0) 
@@ -42,24 +43,24 @@ function [objects] = track_objects(prev_frame_objects, actual_frame_objects, obj
                 Erro(j)= Erro_R'*Erro_R + Erro_G'*Erro_G + Erro_B'*Erro_B; 
             end
 
-            % If the min error of all matches is below a certain threshold
-            % it means its the same object between frames
+            % Se o erro minimo for menor do que um certo treshold significa
+            % que existe o mesmo objecto em ambas frames (match)
             idx = min(Erro);
-            if (Erro(idx) < erro_threshold)
+            if (idx < erro_treshold)
                 
-                % Assignment of the matched actual frame object to "objects"
                 init = length(objects);
                 objects(prev_frame_objects.index(idx)).X(init + 1,:) = actual_frames_objects(i).X(1,:); 
                 objects(prev_frame_objects.index(idx)).Y(init + 1,:) = actual_frames_objects(i).Y(1,:); 
                 objects(prev_frame_objects.index(idx)).Z(init + 1,:) = actual_frames_objects(i).Z(1,:);
-                objects(prev_frame_objects.index(idx)).frames_tracked(init + 1) = actual_frames_objects(i).frames_tracked;  
-          
-                objects(actual_frames_objects(i).index) = [];   
+                objects(prev_frame_objects.index(idx)).frames_tracked(init + 1) = actual_frames_objects(i).frames_tracked;
+                objects(actual_frames_objects(i).index) = [];
+                
             end
         end
         
-        % Updates objects struct after tracking (cleaning stuff)
-        
-        
+        % Atualiza o prev_frame_objects de modo a não termos problemas
+        % Não sabemos se isto importa muito
+        clear var prev_frame_objects;
+        prev_frame_objects =  actual_frame_objects;
     end
 end

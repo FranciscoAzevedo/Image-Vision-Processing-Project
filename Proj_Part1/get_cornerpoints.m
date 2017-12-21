@@ -1,3 +1,11 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    get_cornerpoints                                       %
+%    Program developed by:     Francisco Azevedo (80966)    %
+%                              Luis Almeida (81232)         %
+%                              Francisco Pereira (81381)    %
+%    At IST, Lisbon 2017                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function [ cornerpoints ] = get_cornerpoints( PC )
 
     min_x = PC.XLimits(1);

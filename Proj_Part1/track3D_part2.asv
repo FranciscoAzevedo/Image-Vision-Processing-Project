@@ -56,21 +56,19 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
         
         %% Starts doing setup and tracking objects in frames      
         if(isempty(objects) == 0)
-            
-            if(k > 1)
-                prev_frame_objects = actual_frame_objects;
+            % Updates prev frame
+            prev_frame_objects = actual_frame_objects;
 
-                % Search in "object struct" objects that appear in the atual frame
-                [index] = find_objs_frame_x(objects,k);
+            % Search in "object struct" objects that appear in the atual frame
+            [index] = find_objs_frame_x(objects,k);
 
-                for i = 1:length(index)
-                    actual_frame_objects(i) = objects(index(i));
-                    actual_frame_objects(i).index = index(i);
-                end
+            for i = 1:length(index)
+                actual_frame_objects(i) = objects(index(i));
+                actual_frame_objects(i).index = index(i);
+            end
 
-                %Making correspondence between current and last image (TRACKING)
-                [objects] = track_objects(prev_frame_objects, actual_frame_objects, objects, k);
-            
+            %Making correspondence between current and last image (TRACKING)
+            [objects] = track_objects(prev_frame_objects, actual_frame_objects, objects, k);
         end
     end
 end
