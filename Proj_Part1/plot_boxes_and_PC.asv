@@ -1,0 +1,21 @@
+function [] = plot_boxes_and_PC(k,xyz1,xyz2, objects,R,T)
+    
+    xyz_2_to_1 = (xyz2*R) + ones(length(xyz2),1)*(T(1,:));
+    
+    figure();    
+    pc1 = pointCloud(xyz1);
+    pc2 = pointCloud(xyz_2_to_1);
+    PC = pcmerge(pc1,pc2,0.001);
+    showPointCloud(PC);
+    title('CAM 1');
+    if (isempty(objects)==0)
+        for i = length( objects)
+        
+            if (objects(i).frames_tracked(length(objects(i).frames_tracked))
+            hold on;
+            
+            plotminbox( cornerpoints );
+
+        end
+    end
+end
