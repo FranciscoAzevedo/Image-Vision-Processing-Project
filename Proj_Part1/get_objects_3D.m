@@ -13,8 +13,10 @@ function [ obj_cam ] = get_objects_3D(labels, fg_depth, xyz_cam, rgb)
     % Find the rows and columns of pixels of a specific object
     [r,c] = find(labels == label_num);
     outliers = zeros(size(fg_depth));
+    aux = rgb;
     
     while( isempty(r) == 0 || isempty(c) == 0)
+        rgb = aux;
         
         % Detect outliers that are far from the mean depth
         soma = 0;

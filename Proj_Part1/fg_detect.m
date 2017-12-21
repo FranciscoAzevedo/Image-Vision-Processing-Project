@@ -13,7 +13,7 @@ function [fg_depth,filtered_fg_final] = fg_detect(img_seq,frame_number,bg_depth)
     load(img_seq.depth(frame_number).name);
     
     fg_depth = abs(double(depth_array) - bg_depth);
-    thres = mean(mean(fg_depth))
+    thres = mean(mean(fg_depth));
     fg_depth_bin = fg_depth > thres; %Detect close enough objects
     imshow(fg_depth_bin);
     
