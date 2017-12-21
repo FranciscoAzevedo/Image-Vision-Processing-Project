@@ -6,31 +6,31 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [objects] = track_objects(prev_frame_objects, actual_frame_objects, objects)
+function [objects, actual_frames_objects] = track_objects(prev_frames_objects, actual_frames_objects, objects,k)
     % Description: Given objects of 2 consecutive frames track objects that
     % are common in both frames and store them in struct "objects"
 
     % Inputs:      
-    % prev_frame_objects -> Struct that has the objects of the previous frame                                                                                                                                     
-    % actual_frame_objects -> Struct that has the objects of the actual frame    
+    % prev_frames_objects -> Struct that has the objects of the previous frame                                                                                                                                     
+    % actual_frames_objects -> Struct that has the objects of the actual frame    
     % objects -> Struct that has all the objects 
 
     % 10% Error threshold
-    erro_threshold = 0.1;
+    erro_threshold = 0.08;
     
     % In case there are objects in both frames
-    if( isempty(prev_frame_objects) == 0 && isempty(actual_frame_objects) == 0) 
+    if( isempty(prev_frames_objects) == 0 && isempty(actual_frames_objects) == 0) 
         
         % Lets compare all actual frame objects with prev frame objects to
         % find the best (in case it exists) match
-        for i = 1:length(actual_frame_objects)
+        for i = 1:length(actual_frames_objects)
             
             % R G B of previous frame (RGB é um vetor de quatro elementos)
-            [Ra,Ga,Ba] = histograma_cores(actual_frame_objects(i).PC_rgb);
+            [Ra,Ga,Ba] = histograma_cores(actual_frames_objects(i).PC_rgb.Color); 
 
-            for j = 1:length(prev_frame_objects)   
+            for j = 1:length(prev_frames_objects)   
                 % R G B of actual frame
-                [Rp, Gp, Bp] = histograma_cores(prev_frame_objects(j).PC_rgb);
+                [Rp, Gp, Bp] = histograma_cores(prev_frames_objects(j).PC_rgb.Color);
 
                 % Distance between histogramas of each component of colour
                 % between 2 frames
@@ -44,22 +44,33 @@ function [objects] = track_objects(prev_frame_objects, actual_frame_objects, obj
 
             % If the min error of all matches is below a certain threshold
             % it means its the same object between frames
-            idx = min(Erro);
-            if (Erro(idx) < erro_threshold)
+            [M, idx] = min(Erro);
+            
+            if (Erro(idx) < erro_threshold)   
                 
                 % Assignment of the matched actual frame object to "objects"
-                init = length(objects);
-                objects(prev_frame_objects.index(idx)).X(init + 1,:) = actual_frames_objects(i).X(1,:); 
-                objects(prev_frame_objects.index(idx)).Y(init + 1,:) = actual_frames_objects(i).Y(1,:); 
-                objects(prev_frame_objects.index(idx)).Z(init + 1,:) = actual_frames_objects(i).Z(1,:);
-                objects(prev_frame_objects.index(idx)).frames_tracked(init + 1) = actual_frames_objects(i).frames_tracked;  
+                [r,c] = size(objects(prev_frames_objects.index(idx)).X);
+                objects(prev_frames_objects.index(idx)).X(r + 1,:) = actual_frames_objects(i).X(1,:); 
+                objects(prev_frames_objects.index(idx)).Y(r + 1,:) = actual_frames_objects(i).Y(1,:); 
+                objects(prev_frames_objects.index(idx)).Z(r + 1,:) = actual_frames_objects(i).Z(1,:);
+                objects(prev_frames_objects.index(idx)).frames_tracked(r + 1) = actual_frames_objects(i).frames_tracked;  
           
-                objects(actual_frames_objects(i).index) = [];   
+                if (actual_frames_objects(i).index ~= 1)    
+                    objects(actual_frames_objects(i).index) = []; 
+                end
             end
         end
         
-        % Updates objects struct after tracking (cleaning stuff)
-        
-        
+        % Searches for objects that correspond to actual 
+        sub_ind = find_objs_frame_x(objects,k);
+        for i=1:length(sub_ind)
+            actual_frames_objects(i).X = objects(sub_ind(i)).X;
+            actual_frames_objects(i).Y = objects(sub_ind(i)).Y;
+            actual_frames_objects(i).Z = objects(sub_ind(i)).Z;
+            actual_frames_objects(i).frames_tracked = objects(sub_ind(i)).frames_tracked;
+            actual_frames_objects(i).PC_rgb = objects(sub_ind(i)).PC_rgb;
+            
+            actual_frames_objects(i).index(i)=sub_ind(i);
+        end
     end
 end

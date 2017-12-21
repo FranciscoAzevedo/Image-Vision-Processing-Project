@@ -22,6 +22,7 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
     obj_cam1 = [];
     obj_cam2 = [];
     objects = [];
+    actual_frame_objects = objects;
     
     %% Starts itearting the frames and detecting objects
     for k = 1:number_of_frames
@@ -55,21 +56,29 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
         end
         
         %% Starts doing setup and tracking objects in frames      
-        if(isempty(objects) == 0)
+        if(isempty(find(labels_1 == 1, 1)) == 0 || isempty(find(labels_2 == 1, 1)) == 0)
             
-            if(k > 1)
+            %In the first frame there is no prev_frame_objects
+            if(k > 1) 
                 prev_frame_objects = actual_frame_objects;
-
-                % Search in "object struct" objects that appear in the atual frame
-                [index] = find_objs_frame_x(objects,k);
-
-                for i = 1:length(index)
-                    actual_frame_objects(i) = objects(index(i));
-                    actual_frame_objects(i).index = index(i);
-                end
-
+            end
+            
+            % Gets PC_rgb and index and updates actual
+            [index] = find_objs_frame_x(objects,k);
+            for i = 1:length(index)
+                actual_frame_objects(i).X = objects(index(i)).X;
+                actual_frame_objects(i).Y = objects(index(i)).Y;
+                actual_frame_objects(i).Z = objects(index(i)).Z;
+                actual_frame_objects(i).frames_tracked = objects(index(i)).frames_tracked;
+                actual_frame_objects(i).PC_rgb = objects(index(i)).PC_rgb;
+                actual_frame_objects(i).index = index(i);
+            end
+            
+            %Tracking begins in the 2nd frame
+            if(k > 1)
                 %Making correspondence between current and last image (TRACKING)
-                [objects] = track_objects(prev_frame_objects, actual_frame_objects, objects, k);
+                [objects,  actual_frame_objects] = track_objects(prev_frame_objects, actual_frame_objects, objects,k);
+            end
             
         end
     end

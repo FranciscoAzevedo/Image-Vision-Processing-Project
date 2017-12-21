@@ -44,20 +44,20 @@ function [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 )
     xyz_2_to_1 = (xyzd2*R) + ones(length(xyzd2),1)*(T(1,:));
     
     % Plot PC's and PCs merged
-    figure(1);
-    pc1 = pointCloud(xyzd1);
-    showPointCloud(pc1);
-    title('CAM 1');
-    
-    figure(2);
-    pc2 = pointCloud(xyzd2);
-    showPointCloud(pc2);
-    title('CAM 2');
-    
-    figure(3);
-    pc3 = pointCloud(xyz_2_to_1);
-    showPointCloud(pc3); 
-    title('Final one merged');
-    
+%     figure(1);
+%     pc1 = pointCloud(xyzd1);
+%     showPointCloud(pc1);
+%     title('CAM 1');
+%     
+%     figure(2);
+%     pc2 = pointCloud(xyzd2);
+%     showPointCloud(pc2);
+%     title('CAM 2');
+%     
+%     figure(3);
+%     pc3 = pointCloud(xyz_2_to_1);
+%     showPointCloud(pc3); 
+%     title('Final one merged');
+%     
 end 
 
