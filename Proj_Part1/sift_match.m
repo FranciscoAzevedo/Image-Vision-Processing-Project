@@ -33,11 +33,11 @@ function [nmatches, matches,f1, d1, f2, d2] = sift_match(im1, imd1, im2, imd2)
         matches_ = [];
         scores_ = [];
 
-        % Get rid of invalid depth values
+        % Gets depth of each
         for j=1:size(matches,2)
             
-            z1 = imd1(round(f1(2,matches(1,j))), round(f1(1,matches(1,j))), 3);
-            z2 = imd2(round(f2(2,matches(2,j))), round(f2(1,matches(2,j))), 3);
+            z1 = imd1(fix(f1(2,matches(1,j))), fix(f1(1,matches(1,j))), 3);
+            z2 = imd2(fix(f2(2,matches(2,j))), fix(f2(1,matches(2,j))), 3);
             
             if z1~=0 && z2~=0
                 matches_ = [matches_ matches(:,j)];
@@ -51,7 +51,7 @@ function [nmatches, matches,f1, d1, f2, d2] = sift_match(im1, imd1, im2, imd2)
         nmatches = size(matches,2);
 
         % Enough points for R and T estimate
-        if nmatches >= 10,
+        if nmatches >= 14,
             break;
         end
 
@@ -65,10 +65,4 @@ function [nmatches, matches,f1, d1, f2, d2] = sift_match(im1, imd1, im2, imd2)
         disp('there is no valid matching between these two images');
         return;
     end
-
-%     ret = createPs( matches, imd1, f1, imd2, f2); 
-
-%     PP1 = ret.P1 + noise_factor * rand(3,nmatches); 
-%     PP2 = ret.P2 + noise_factor * rand(3,nmatches);
-    
 end

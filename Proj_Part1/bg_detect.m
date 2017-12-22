@@ -14,7 +14,7 @@ function [bg_depth] = bg_detect(img_seq)
     ims_d = [];
 
     % Opening images and storing in ims and imsd struct
-    for i=1:length(img_seq)
+    for i=1:length(img_seq.rgb)
         
         %im = rgb2gray(imread(img_seq.rgb(i).name));
         load(img_seq.depth(i).name);
@@ -31,6 +31,6 @@ function [bg_depth] = bg_detect(img_seq)
     % Convert to matrix again 
     %bg_rgb = reshape(median_rgb,[480 640]); 
     bg_depth = reshape(median_depth,[480 640]);
-
+    
 end
 

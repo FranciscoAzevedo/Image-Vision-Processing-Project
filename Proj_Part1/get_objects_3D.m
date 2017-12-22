@@ -19,21 +19,21 @@ function [ obj_cam ] = get_objects_3D(labels, fg_depth, xyz_cam, rgb)
         rgb = aux;
         
         % Detect outliers that are far from the mean depth
-%         soma = 0;
-%         for i = 1:length(r)
-%            soma = soma + double(fg_depth(r(i),c(i)));
-%         end
-%         avg_depth = soma/length(r);
-%         
-%         for i = 1:length(r)
-%             if(abs(double((fg_depth(r(i),c(i))) - avg_depth)) > 500)
-%                 labels(r(i),c(i)) = 0;
-%             end
-%         end
+        soma = 0;
+        for i = 1:length(r)
+           soma = soma + double(fg_depth(r(i),c(i)));
+        end
+        avg_depth = soma/length(r);
+        
+        for i = 1:length(r)
+            if(abs(double((fg_depth(r(i),c(i))) - avg_depth)) > 500)
+                labels(r(i),c(i)) = 0;
+            end
+        end
         
         % Update to discard outliers
         [r,c] = find(labels == label_num);
-    
+        
         % Get the 3D points corresponding to "r" and "c"
         obj_cam(label_num).xyz = xyz_cam(sub2ind([480 640],r,c),:);
         
@@ -48,9 +48,13 @@ function [ obj_cam ] = get_objects_3D(labels, fg_depth, xyz_cam, rgb)
         rgb(todelete,:) = [];
         obj_cam(label_num).rgb = rgb;
         
-        % Get the centroid of these points
-        [idx,C] = kmeans(obj_cam(label_num).xyz,1);
-        obj_cam(label_num).centroid = C;
+        if(isempty(obj_cam(label_num).xyz) == 0)
+            % Get the centroid of these points
+            [idx,C] = kmeans(obj_cam(label_num).xyz,1);
+            obj_cam(label_num).centroid = C;
+        else
+           obj_cam(label_num) = []; 
+        end
         
         label_num = label_num + 1;
         

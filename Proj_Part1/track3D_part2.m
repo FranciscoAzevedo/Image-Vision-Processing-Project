@@ -19,13 +19,15 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
     [bg_depth2] = bg_detect(imgseq2);
     
     number_of_frames = length(imgseq1.rgb);
-    obj_cam1 = [];
-    obj_cam2 = [];
     objects = [];
     actual_frame_objects = objects;
     
     %% Starts itearting the frames and detecting objects
     for k = 1:number_of_frames
+        disp(k);
+        % Trying to clear some issues
+        obj_cam1 = [];
+        obj_cam2 = [];
         
         % Setup of a given k-th image for both cameras
         [im1,im2,xyz1,xyz2,imd1,imd2] = setup_img(imgseq1, imgseq2, cam_params, k);
@@ -40,7 +42,7 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
 
         % Get PC and centroids for camera 1 if there is objects
         if(isempty(find(labels_1 == 1, 1)) == 0)
-            [obj_cam1] = get_objects_3D(labels_1,fg_depth1, xyz1, im1);
+           [obj_cam1] = get_objects_3D(labels_1,fg_depth1, xyz1, im1);         
         end
         
         % Get PC and centroids for camera 2 if there is objects
@@ -78,10 +80,9 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
             if(k > 1)
                 %Making correspondence between current and last image (TRACKING)
                 [objects,  actual_frame_objects] = track_objects(prev_frame_objects, actual_frame_objects, objects,k);
-            end
-            
+            end  
         end
         
-        plot_boxes_and_PC(xyz1,xyz2,k,objects, R,T);
+        %plot_boxes_and_PC(xyz1,xyz2,k,objects, R,T);
     end
 end

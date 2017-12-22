@@ -13,12 +13,11 @@ function [] = plot_boxes_and_PC(xyz1,xyz2,k, objects,R,T)
         
             if (objects(i).frames_tracked(length(objects(i).frames_tracked))==k)
             hold on;
-            cornerpoints(:,1) =objects(i).X(length(objects(i).frames_tracked),:)';
-            cornerpoints(:,2) =objects(i).Y(length(objects(i).frames_tracked),:)';
-            cornerpoints(:,3) =objects(i).Z(length(objects(i).frames_tracked),:)';
+            cornerpoints(:,1) = objects(i).X(length(objects(i).frames_tracked),:)';
+            cornerpoints(:,2) = objects(i).Y(length(objects(i).frames_tracked),:)';
+            cornerpoints(:,3) = objects(i).Z(length(objects(i).frames_tracked),:)';
             plotminbox( cornerpoints );
             end
-
         end
     end
 end

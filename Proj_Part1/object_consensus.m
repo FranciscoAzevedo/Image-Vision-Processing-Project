@@ -28,7 +28,7 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number,
                 pc2 = pointCloud(xyz_2_to_1);
                 PC = pcmerge(pc1,pc2,0.001);
                 PC1 = pointCloud([obj_cam1(i).xyz ; xyz_2_to_1],'Color',[obj_cam1(i).rgb; obj_cam2(I).rgb]);
-                
+
                 % Storing index of matched objects
                 idx_chosen1(cnt) = i;
                 idx_chosen2(cnt) = I;

@@ -4,10 +4,13 @@ function [objects] = detect_loners( obj_cam, flag, loners, objects,R,T, frame_nu
         for i = 1:length(loners)
             PC = pointCloud(obj_cam(loners(i)).xyz);
             PC1 = pointCloud(obj_cam(loners(i)).xyz ,'Color', obj_cam(loners(i)).rgb);            
+            
             % Detectar cornerpoints
             [corners] = get_cornerpoints(PC);
 
             % Store in objects structure
+            init = length(objects);
+            
             objects(1+init).X(1,:) = corners(:,1)';
             objects(1+init).Y(1,:) = corners(:,2)';
             objects(1+init).Z(1,:) = corners(:,3)';
@@ -28,11 +31,6 @@ function [objects] = detect_loners( obj_cam, flag, loners, objects,R,T, frame_nu
             % Store in objects structure
             init = length(objects);
             
-%             if( init == 0)
-%                 r = 0;
-%             else
-%                 [r,c] = size(objects(init).X);
-%             end
             objects(1+init).X(1,:) = corners(:,1)';
             objects(1+init).Y(1,:) = corners(:,2)';
             objects(1+init).Z(1,:) = corners(:,3)';
