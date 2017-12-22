@@ -15,7 +15,7 @@ function [ objects ] = object_consensus( obj_cam1, obj_cam2, R, T, frame_number,
                 % Transformar centroide cam2 na cam1
                 new_centroid2 = (obj_cam2(j).centroid)*R + T(1,:);
                 % Comparar distancias entre centroides
-                dist(i).distances(j) = sqrt(sum(new_centroid2 - obj_cam1.centroid(i)).^2);
+                dist(i).distances(j) = sqrt(sum(new_centroid2 - obj_cam1(i).centroid).^2);
             end
 
             % Escolher centroide mais perto
