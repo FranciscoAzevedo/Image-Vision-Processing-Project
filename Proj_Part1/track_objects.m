@@ -54,9 +54,7 @@ function [objects, actual_frames_objects] = track_objects(prev_frames_objects, a
                 objects(prev_frames_objects.index(idx)).Y(r + 1,:) = actual_frames_objects(i).Y(1,:); 
                 objects(prev_frames_objects.index(idx)).Z(r + 1,:) = actual_frames_objects(i).Z(1,:);
                 objects(prev_frames_objects.index(idx)).frames_tracked(r + 1) = actual_frames_objects(i).frames_tracked;  
-                %alterei isto !!!!!!!!!
-                objects(prev_frames_objects.index(idx)).PC_rgb = actual_frames_objects(i).PC_rgb; 
-                
+          
                 if (actual_frames_objects(i).index ~= 1)    
                     objects(actual_frames_objects(i).index) = []; 
                 end
