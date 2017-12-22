@@ -9,7 +9,7 @@
 function objects = track3D_part2(imgseq1, imgseq2, cam_params)
     
     % Setups a specific first image to use on get_T_R_world
-    [im1,im2,xyz1,xyz2,imd1,imd2] = setup_img(imgseq1, imgseq2, cam_params, 1);
+    [im1,im2,xyz1,xyz2,imd1,imd2] = setup_img (imgseq1, imgseq2, cam_params, 1);
 
     % Run RANSAC, SIFT and Procrustes to get R and T world
     [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 );
@@ -83,6 +83,6 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
             end  
         end
         
-        %plot_boxes_and_PC(xyz1,xyz2,k,objects, R,T);
+        plot_boxes_and_PC(imgseq1,xyz1,xyz2,k,objects, R,T);
     end
 end
