@@ -1,19 +1,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    track3D_part2.m                                        %
+%    track3D_part1.m                                        %
 %    Program developed by:     Francisco Azevedo (80966)    %
 %                              Luis Almeida (81232)         %
 %                              Francisco Pereira (81381)    %
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function objects = track3D_part2(imgseq1, imgseq2, cam_params)
+function [objects] = track3D_part1(imgseq1, imgseq2, cam_params,  cam1toW, cam2toW)
     
+
     % Setups a specific first image to use on get_T_R_world
     [im1,im2,xyz1,xyz2,imd1,imd2] = setup_img(imgseq1, imgseq2, cam_params, 1);
-
-    % Run RANSAC, SIFT and Procrustes to get R and T world
-    [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 );
-
+    
+     R1=cam1toW.R;
+     T1=cam1toW.T;
+     R2=cam2toW.R;
+     T2=cam2toW.T;
+  
     % Get background for both cameras
     [bg_depth1] = bg_detect(imgseq1);
     [bg_depth2] = bg_detect(imgseq2);
@@ -24,7 +27,7 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
     
     %% Starts itearting the frames and detecting objects
     for k = 1:number_of_frames
-        disp(k);
+        
         % Trying to clear some issues
         obj_cam1 = [];
         obj_cam2 = [];
@@ -35,9 +38,7 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
         % Get foreground for both cameras
         [fg_depth1,fg_depth1_bin] = fg_detect(imgseq1,k,bg_depth1);
         [fg_depth2,fg_depth2_bin] = fg_detect(imgseq2,k,bg_depth2);
-        imshow(fg_depth2);
-        figure();
-        imshow(fg_depth1);
+        
         % Label objects in 2D
         labels_1 = bwlabel(fg_depth1_bin);
         labels_2 = bwlabel(fg_depth2_bin);
@@ -56,7 +57,7 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
         if(isempty(find(labels_1 == 1, 1)) == 0 || isempty(find(labels_2 == 1, 1)) == 0)
             
             % Get the final cornerpoints for all objects
-            [objects] = object_consensus(obj_cam1, obj_cam2, R, T, k, objects);
+            [objects] = object_consensus1(obj_cam1, obj_cam2, R1, T1, R2, T2, k, objects);
         end
         
         %% Starts doing setup and tracking objects in frames      
@@ -82,10 +83,8 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
             if(k > 1)
                 %Making correspondence between current and last image (TRACKING)
                 [objects,  actual_frame_objects] = track_objects(prev_frame_objects, actual_frame_objects, objects,k);
-            end
-            
+            end  
         end
-        
-        plot_boxes_and_PC(xyz1,xyz2,k,objects, R,T);
+    
     end
 end
