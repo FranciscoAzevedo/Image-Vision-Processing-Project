@@ -6,13 +6,15 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function objects = track3D_part2(imgseq1, imgseq2, cam_params)
+function [objects, cam1toW, cam2toW] = track3D_part2(imgseq1, imgseq2, cam_params)
     
+
     % Setups a specific first image to use on get_T_R_world
     [im1,im2,xyz1,xyz2,imd1,imd2] = setup_img(imgseq1, imgseq2, cam_params, 1);
 
     % Run RANSAC, SIFT and Procrustes to get R and T world
     [R,T,P1,P2] = get_T_R_world( im1, imd1, im2, imd2 );
+    
 
     % Get background for both cameras
     [bg_depth1] = bg_detect(imgseq1);
@@ -24,7 +26,7 @@ function objects = track3D_part2(imgseq1, imgseq2, cam_params)
     
     %% Starts itearting the frames and detecting objects
     for k = 1:number_of_frames
-        disp(k);
+        
         % Trying to clear some issues
         obj_cam1 = [];
         obj_cam2 = [];
