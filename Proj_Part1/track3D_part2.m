@@ -6,7 +6,7 @@
 %    At IST, Lisbon 2017                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [objects, cam1toW, cam2toW] = track3D_part2(imgseq1, imgseq2, cam_params)
+function [objects] = track3D_part2(imgseq1, imgseq2, cam_params)
     
 
     % Setups a specific first image to use on get_T_R_world
@@ -25,7 +25,7 @@ function [objects, cam1toW, cam2toW] = track3D_part2(imgseq1, imgseq2, cam_param
     actual_frame_objects = objects;
     
     %% Starts itearting the frames and detecting objects
-    for k = 1:number_of_frames
+    for k = 1:15
         
         % Trying to clear some issues
         obj_cam1 = [];
